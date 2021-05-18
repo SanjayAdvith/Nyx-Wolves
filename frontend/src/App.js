@@ -10,6 +10,7 @@ function App() {
       <Header />
       <main>
         <Container>
+          <Route path='/' />
           <Route path='/login' component={Login} />
           <Route path='/user' component={User} />
         </Container>
