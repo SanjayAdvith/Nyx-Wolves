@@ -9,4 +9,6 @@ Message.defaultProps = {
   variant: 'info',
 }
 
+
+
 export default Message

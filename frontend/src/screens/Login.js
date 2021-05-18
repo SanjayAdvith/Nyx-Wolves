@@ -6,7 +6,6 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import { login } from '../actions/userActions'
-
 const Login = ({ location, history }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')

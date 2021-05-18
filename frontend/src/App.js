@@ -11,7 +11,6 @@ function App() {
       <main>
         <Container>
           <Route path='/login' component={Login} />
-
           <Route path='/user' component={User} />
         </Container>
       </main>
