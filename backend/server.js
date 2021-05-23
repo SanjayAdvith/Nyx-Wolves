@@ -5,6 +5,7 @@ import connectDB from './config/db.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import User from './models/userModel.js'
 import userRoutes from './routes/userRoutes.js'
+import photoRoutes from './routes/photoRoutes.js'
 
 
 const app = express()
@@ -46,6 +47,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/users', userRoutes)
+app.use('/posts', photoRoutes)
 
 
 app.use(notFound)

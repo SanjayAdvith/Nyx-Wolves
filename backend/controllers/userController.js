@@ -3,7 +3,7 @@ import generateToken from '../utils/generateToken.js'
 import User from '../models/userModel.js'
 
 // @desc    Auth user & get token
-// @route   POST /api/users/login
+// @route   POST /users/login
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body   // req.body come from postman request
@@ -27,10 +27,10 @@ const authUser = asyncHandler(async (req, res) => {
 })
 
 // @desc    Register a new user
-// @route   POST /api/users
+// @route   POST /users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body
+  const { name, email, address, password } = req.body
 
   const userExists = await User.findOne({ email })
 
@@ -42,6 +42,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     name,
     email,
+    address,
     password,
   })
 
@@ -63,7 +64,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 
 // @desc    Get user profile
-// @route   GET /api/users/profile
+// @route    /users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
 
@@ -86,8 +87,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
 
 // @desc    Get all users
-// @route   GET /api/users
-// @access  Private/Admin
+// @route   GET /users
+
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({})
   res.json(users)
