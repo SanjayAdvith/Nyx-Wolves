@@ -3,12 +3,14 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 import { userLoginReducer, userRegisterReducer, } from './reducers/userReducers.js'
-import { photoListReducer } from './reducers/photoReducers.js'
+import { photoListReducer, photoDetailsReducer, photoDeleteReducer } from './reducers/photoReducers.js'
 
 const reducer = combineReducers({
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
     photoList: photoListReducer,
+    photoDetails: photoDetailsReducer,
+    photoDelete: photoDeleteReducer,
 })
 
 

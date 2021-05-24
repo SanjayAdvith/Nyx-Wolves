@@ -5,10 +5,13 @@ import {
   getPhotoById,
   deletePhoto,
   createPhoto,
+  updatePhoto,
 
 } from '../controllers/photoController.js'
 
-router.route('/').get(getPhotos).post(createPhoto)
-router.route('/:id').get(getPhotoById).delete(deletePhoto)
+import { protect } from '../middleware/authMiddleware.js'
+
+router.route('/').get(getPhotos).post(protect, createPhoto)
+router.route('/:id').get(getPhotoById).delete(deletePhoto).put(protect, updatePhoto)
 
 export default router

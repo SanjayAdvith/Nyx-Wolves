@@ -7,28 +7,43 @@ import Photo from '../models/photoModel.js'
 // @route   POST photos
 
 const createPhoto = asyncHandler(async (req, res) => {
-  const {user, name, image, description } = req.body
-
-  const photos = await Photo.create({
-    user,
-    name,
-    image,
-    description
+  const photo = new Photo({
+    name: 'Sample name',
+    user: req.user._id,
+    image: '/images/sample.jpg',
+    numReviews: 0,
+    description: 'Sample description',
   })
 
-  if (photos) {
-    res.status(201).json({
-      _id: photos._id,
-      name: photos.name,
-      image: photos.image,
-      description: photos.description,
-    })
-  } else {
-    res.status(400)
-    throw new Error('Invalid photos data')
-  }
+  const createdProduct = await photo.save()
+  res.status(201).json(createdProduct)
 })
 
+// @desc    Update a photo
+// @route   PUT /posts/:id
+// @access  Private
+const updatePhoto = asyncHandler(async (req, res) => {
+  const {
+    name,
+    description,
+    image,
+  } = req.body
+
+  const photo = await Photo.findById(req.params.id)
+
+  if (photo) {
+    photo.name = name
+
+    photo.description = description
+    photo.image = image
+
+    const updatedPhoto = await photo.save()
+    res.json(updatedPhoto)
+  } else {
+    res.status(404)
+    throw new Error('Photo not found')
+  }
+})
 
 
 // @desc    Fetch all photos
@@ -64,6 +79,7 @@ const deletePhoto = asyncHandler(async (req, res) => {
   if (photo) {
     await photo.remove()
     res.json({ message: 'photo removed' })
+
   } else {
     res.status(404)
     throw new Error('photo not found')
@@ -73,6 +89,7 @@ const deletePhoto = asyncHandler(async (req, res) => {
 
 export {
   createPhoto,
+  updatePhoto,
   getPhotos,
   getPhotoById,
   deletePhoto,
