@@ -3,7 +3,13 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 import { userLoginReducer, userRegisterReducer, } from './reducers/userReducers.js'
-import { photoListReducer, photoDetailsReducer, photoDeleteReducer } from './reducers/photoReducers.js'
+import {
+    photoListReducer,
+    photoDetailsReducer,
+    photoDeleteReducer,
+    photoCreateReducer,
+    photoUpdateReducer
+} from './reducers/photoReducers.js'
 
 const reducer = combineReducers({
     userLogin: userLoginReducer,
@@ -11,12 +17,16 @@ const reducer = combineReducers({
     photoList: photoListReducer,
     photoDetails: photoDetailsReducer,
     photoDelete: photoDeleteReducer,
+    photoCreate: photoCreateReducer,
+    photoUpdate: photoUpdateReducer,
 })
 
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
     ? JSON.parse(localStorage.getItem('userInfo'))
     : null
+
+
 
 
 const initialState = {

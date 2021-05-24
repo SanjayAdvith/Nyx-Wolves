@@ -20,6 +20,7 @@ const Post = ({ photo }) => {
 
         <Card.Text as='h3'>{photo.description}</Card.Text>
       </Card.Body>
+      
     </Card>
   )
 }

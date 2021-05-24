@@ -12,6 +12,9 @@ import {
     PHOTO_CREATE_SUCCESS,
     PHOTO_CREATE_REQUEST,
     PHOTO_CREATE_FAIL,
+    PHOTO_UPDATE_REQUEST,
+    PHOTO_UPDATE_SUCCESS,
+    PHOTO_UPDATE_FAIL,
 } from '../constants/photoConstants'
 
 export const listPhotoDetails = (id) => async (
@@ -117,7 +120,7 @@ export const createPhoto = () => async (dispatch, getState) => {
             },
         }
 
-        const { data } = await axios.post(`/posts`, {}, config)
+        const { data } = await axios.post('/posts', {}, config)
 
         dispatch({
             type: PHOTO_CREATE_SUCCESS,
@@ -131,6 +134,45 @@ export const createPhoto = () => async (dispatch, getState) => {
 
         dispatch({
             type: PHOTO_CREATE_FAIL,
+            payload: message,
+        })
+    }
+}
+
+
+
+
+export const updatePhoto = (photo) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: PHOTO_UPDATE_REQUEST,
+        })
+
+        const {
+            userLogin: { userInfo },
+        } = getState()
+
+        const config = {
+            headers: {
+                "Content-Type": "Application/json",
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        }
+
+        const { data } = await axios.put(`/posts/${photo._id}`, photo, config)
+
+        dispatch({
+            type: PHOTO_UPDATE_SUCCESS,
+            payload: data,
+        })
+    } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: PHOTO_UPDATE_FAIL,
             payload: message,
         })
     }

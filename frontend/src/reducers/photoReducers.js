@@ -12,6 +12,9 @@ import {
     PHOTO_CREATE_SUCCESS,
     PHOTO_CREATE_FAIL,
     PHOTO_CREATE_RESET,
+    PHOTO_UPDATE_REQUEST,
+    PHOTO_UPDATE_SUCCESS,
+    PHOTO_UPDATE_FAIL,
 
 } from '../constants/photoConstants'
 
@@ -55,9 +58,6 @@ export const photoDeleteReducer = (state = {}, action) => {
     }
 }
 
-
-
-
 export const photoCreateReducer = (state = {}, action) => {
     switch (action.type) {
         case PHOTO_CREATE_REQUEST:
@@ -72,3 +72,19 @@ export const photoCreateReducer = (state = {}, action) => {
             return state
     }
 }
+
+export const photoUpdateReducer = (state = { photo: {} }, action) => {
+    switch (action.type) {
+        case PHOTO_UPDATE_REQUEST:
+            return { loading: true }
+        case PHOTO_UPDATE_SUCCESS:
+            return { loading: false, success: true, photo: action.payload }
+        case PHOTO_UPDATE_FAIL:
+            return { loading: false, error: action.payload }
+        case PHOTO_CREATE_RESET:
+            return { photo: {} }
+        default:
+            return state
+    }
+}
+
