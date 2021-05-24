@@ -1,3 +1,4 @@
+import path from 'path'
 import express from 'express'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
@@ -6,6 +7,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import User from './models/userModel.js'
 import userRoutes from './routes/userRoutes.js'
 import photoRoutes from './routes/photoRoutes.js'
+import uploadRoutes from './routes/uploadRoutes.js'
 
 
 const app = express()
@@ -13,9 +15,6 @@ dotenv.config()
 connectDB() // databae connection
 app.use(express.json()) // using post man (for JSON data)
 
-app.get('/', (req, res) => {
-    res.send('Nyx api is running...')
-})
 
 
 
@@ -48,6 +47,23 @@ app.get('/', (req, res) => {
 
 app.use('/users', userRoutes)
 app.use('/posts', photoRoutes)
+app.use('/upload', uploadRoutes)
+
+// creating static folder so that it can accessable
+const __dirname = path.resolve()
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '/frontend/build')))
+
+    app.get('*', (req, res) =>
+        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+    )
+} else {
+    app.get('/', (req, res) => {
+        res.send('API is running....')
+    })
+}
 
 
 app.use(notFound)
