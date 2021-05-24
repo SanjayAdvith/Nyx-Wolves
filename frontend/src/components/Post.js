@@ -2,23 +2,23 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
 
-const Post = ({ posts }) => {
+const Post = ({ photo }) => {
 
   return (
     <Card className='my-3 p-3 rounded'>
-      <Link to={`/posts/${posts._id}`}>
-        <Card.Img src={posts.image} variant='top' />
+      <Link to={`/posts/${photo._id}`}>
+        <Card.Img src={photo.image} variant='top' />
       </Link>
 
       <Card.Body>
-        <Link to={`/posts/${posts._id}`}>
+        <Link to={`/posts/${photo._id}`}>
           <Card.Title as='div'>
-            <strong>{posts.name}</strong>
+            <strong>{photo.name}</strong>
           </Card.Title>
         </Link>
 
 
-        <Card.Text as='h3'>{posts.description}</Card.Text>
+        <Card.Text as='h3'>{photo.description}</Card.Text>
       </Card.Body>
     </Card>
   )

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
+import { Row, Col, Image, ListGroup} from 'react-bootstrap'
 import posts from '../posts'
 const PhotoScreen = ({ match }) => {
     //const product = { name: 'sanay', price: '200', image: 'photos', brand: 'tata' }
