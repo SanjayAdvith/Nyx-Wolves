@@ -65,11 +65,13 @@ const HomeScreen = ({ history, match }) => {
 
   return (
     <>
-      <h1>All photo</h1>
+      <center>
+        <h1>All Posts</h1>
+      </center>
       <Button
         variant='primary'
         onClick={createPhotoHandler}
-      >Add New Photo</Button>
+      >Add New Post</Button>
       {loadingDelete && <Loader />}
       {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
 
