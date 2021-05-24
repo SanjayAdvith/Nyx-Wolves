@@ -1,14 +1,20 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
 import { Row, Col, Button } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 import Post from '../components/Post'
-import { listPhotos, deletePhoto, createPhoto, updatePhoto } from '../actions/photoActions'
+import { listPhotos, deletePhoto, createPhoto } from '../actions/photoActions'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 import { PHOTO_CREATE_RESET } from '../constants/photoConstants'
 
 const HomeScreen = ({ history, match }) => {
 
   const dispatch = useDispatch()
+
+
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
   const photoList = useSelector((state) => state.photoList)
   const { loading, error, photos } = photoList
@@ -29,26 +35,20 @@ const HomeScreen = ({ history, match }) => {
     photo: createdPhoto
   } = photoCreate
 
-
-
-  const userLogin = useSelector((state) => state.userLogin)
-  const { userInfo } = userLogin
   useEffect(() => {
     dispatch({ type: PHOTO_CREATE_RESET })
-
 
     if (!userInfo) {
       history.push('/login')
     }
 
     if (successCreate) {
-      history.push(`/update/posts/${createdPhoto._id}`)
+      history.push(`/users/posts/${createdPhoto._id}/edit`)
     }
     else {
-
       dispatch(listPhotos())
     }
-  }, [dispatch, history, successDelete, successCreate, createdPhoto])
+  }, [dispatch, history, userInfo, successDelete, successCreate, createdPhoto])
 
   //console.log(photoList)
 
@@ -70,8 +70,11 @@ const HomeScreen = ({ history, match }) => {
         variant='primary'
         onClick={createPhotoHandler}
       >Add New Photo</Button>
-      {loadingDelete ? <h2>Loading...</h2> : <h3>{errorDelete}</h3>}
-      {loadingCreate ? <h2>Loading...</h2> : <h3>{errorCreate}</h3>}
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+
+      {loadingCreate && <Loader />}
+      {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
 
       {loading ? <h3>Loading...</h3> : error ? <h4>{error}</h4> : (
         <Row>
@@ -81,15 +84,16 @@ const HomeScreen = ({ history, match }) => {
 
               <Button
                 variant='danger'
+
                 onClick={() => deleteHandler(props._id)}
               >Delete</Button>
 
-
-              <LinkContainer to={`/update/posts/${props._id}`}>
+              <LinkContainer to={`/users/posts/${props._id}/edit`}>
                 <Button variant='primary' className='ml-3'>
                   Update
                 </Button>
               </LinkContainer>
+
             </Col>
           ))}
         </Row>

@@ -35,7 +35,7 @@ const PhotoUpdateScreen = ({ match, history }) => {
       history.push('/')
     }
     else {
-      if (photo._id !== photoId) {
+      if (!photo.name || photo._id !== photoId) {
         dispatch(listPhotoDetails(photoId))
       } else {
         setName(photo.name)
@@ -89,6 +89,7 @@ const PhotoUpdateScreen = ({ match, history }) => {
         <h1>Update photo</h1>
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
+
         {loading ? (
           <Loader />
         ) : error ? (
